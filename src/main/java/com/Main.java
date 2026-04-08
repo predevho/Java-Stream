@@ -22,22 +22,27 @@ class Main {
 
     static void noStreamVersion(List<Person> people) {
         int sum = 0;
+        int countOfMan = 0;
         for (Person person : people) {
             if (person.getGender() == 'M') {
                 sum += person.getAge();
+                countOfMan++;
             }
         }
-        System.out.println("남성들의 나이의 합 : " + sum);
+        double average = (double)sum / countOfMan;
+
+        System.out.println("남성들의 나이의 평균 : " + average);
     }
 
     static void streamVersion(List<Person> people) {
-        int sum = people
+        double avg = people
                 .stream()
                 .filter(p -> p.getGender() == 'M')
                 .mapToInt(e -> e.getAge())
-                .sum();
+                .average()
+                .orElse(0);
 
-        System.out.println(sum);
+        System.out.println("남성들의 나이의 평균 : " + avg);
     }
 
 }
