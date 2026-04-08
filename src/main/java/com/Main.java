@@ -2,6 +2,7 @@ package com;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 class Main {
     public static void main(String[] args) {
@@ -21,28 +22,22 @@ class Main {
     }
 
     static void noStreamVersion(List<Person> people) {
-        int sum = 0;
-        int countOfMan = 0;
+        List<String> names = new ArrayList<>();
+
         for (Person person : people) {
             if (person.getGender() == 'M') {
-                sum += person.getAge();
-                countOfMan++;
+                names.add(person.getName());
             }
         }
-        double average = (double)sum / countOfMan;
-
-        System.out.println("남성들의 나이의 평균 : " + average);
+        System.out.println("남성들의 이름 : " + String.join(", ", names));
     }
 
     static void streamVersion(List<Person> people) {
-        double avg = people
-                .stream()
+        String names = people.stream()
                 .filter(p -> p.getGender() == 'M')
-                .mapToInt(e -> e.getAge())
-                .average()
-                .orElse(0);
-
-        System.out.println("남성들의 나이의 평균 : " + avg);
+                .map(Person::getName)
+                .collect(Collectors.joining(", "));
+        System.out.println("남성들의 이름 : " + names);
     }
 
 }
