@@ -1,62 +1,22 @@
 package com;
 
-import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 
-public class Main {
+class Main {
     public static void main(String[] args) {
-        System.out.println("== 비 스트림 ==");
+        // 일반
         for (int i = 1; i <= 10; i++) {
+            if (i % 2 == 0) continue;
+
             System.out.println(i);
         }
-        System.out.println();
 
-        System.out.println("== 스트림 V1(no lamda) ==");
+        // 스트림, 인텔리제이에서 브레이크 포인트 걸어서 Trace Current Stream Chain 뷰를 확인해보세요.
         IntStream.rangeClosed(1, 10)
-                .forEach(
-                        new IntConsumer() {
-                            @Override
-                            public void accept(int value) {
-                                System.out.println(value);
-                            }
-                        }
-                );
-        System.out.println();
+                .filter(e -> e % 2 != 0)
+                .forEach(e -> {
+                    System.out.println(e);
+                });
 
-        System.out.println("== 스트림 V2(use lamda) ==");
-        IntStream.rangeClosed(1, 10)
-                .forEach(
-                        (int value) -> {
-                            System.out.println(value);
-                        }
-                );
-        System.out.println();
-
-        System.out.println("== 스트림 V3(매개변수 타입 생략) ==");
-        IntStream.rangeClosed(1, 10)
-                .forEach(
-                        (value) -> {
-                            System.out.println(value);
-                        }
-                );
-        System.out.println();
-
-        System.out.println("== 스트림 V4(매개변수 괄호 생략) ==");
-        IntStream.rangeClosed(1, 10)
-                .forEach(
-                        value -> {
-                            System.out.println(value);
-                        }
-                );
-        System.out.println();
-
-        System.out.println("== 스트림 V5(메서드 바디 중괄호 생략) ==");
-        IntStream.rangeClosed(1, 10)
-                .forEach(value -> System.out.println(value));
-        System.out.println();
-
-        System.out.println("== 스트림 V6(최종축약형) ==");
-        IntStream.rangeClosed(1, 10)
-                .forEach(System.out::println);
     }
 }
