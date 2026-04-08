@@ -1,22 +1,46 @@
 package com;
 
-import java.util.stream.IntStream;
+import java.util.Arrays;
 
 class Main {
     public static void main(String[] args) {
-        // 일반
-        for (int i = 1; i <= 10; i++) {
-            if (i % 2 == 0) continue;
+        System.out.println("== No Stream ==");
 
-            System.out.println(i);
+        noStreamVersion();
+
+        System.out.println("== Stream ==");
+
+        streamVersion();
+    }
+
+    private static void noStreamVersion() {
+        int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        System.out.println("= 원본 numbers(변형 전) =");
+        System.out.println(Arrays.toString(numbers));
+
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] *= 2;
         }
 
-        // 스트림, 인텔리제이에서 브레이크 포인트 걸어서 Trace Current Stream Chain 뷰를 확인해보세요.
-        IntStream.rangeClosed(1, 10)
-                .filter(e -> e % 2 != 0)
-                .forEach(e -> {
-                    System.out.println(e);
-                });
+        System.out.println("= 원본 numbers(변형 후) =");
+        System.out.println(Arrays.toString(numbers));
+    }
 
+    private static void streamVersion() {
+        int[] numbers = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+
+        System.out.println("= 원본 numbers(스트림 전) =");
+        System.out.println(Arrays.toString(numbers));
+
+        int[] calculatedNumbers = Arrays.stream(numbers)
+                .map(e -> e * 2)
+                .toArray();
+
+        System.out.println("= 원본 numbers(스트림 후) =");
+        System.out.println(Arrays.toString(numbers));
+
+        System.out.println("= 새 배열 calculatedNumbers =");
+        System.out.println(Arrays.toString(calculatedNumbers));
     }
 }
