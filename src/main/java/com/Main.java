@@ -2,6 +2,7 @@ package com;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 class Main {
@@ -22,22 +23,22 @@ class Main {
     }
 
     static void noStreamVersion(List<Person> people) {
-        List<String> names = new ArrayList<>();
-
+        Person found = null;
         for (Person person : people) {
-            if (person.getGender() == 'M') {
-                names.add(person.getName());
+            if (person.getId() == 2) {
+                found = person;
             }
         }
-        System.out.println("남성들의 이름 : " + String.join(", ", names));
+        System.out.println("Id가 2번인 사람이름 : " + found.getName());
     }
 
     static void streamVersion(List<Person> people) {
-        String names = people.stream()
-                .filter(p -> p.getGender() == 'M')
-                .map(Person::getName)
-                .collect(Collectors.joining(", "));
-        System.out.println("남성들의 이름 : " + names);
+        Optional<Person> person = people.stream()
+                .filter(p -> p.getId() == 2)
+                .findFirst();
+
+
+        System.out.println("Id가 2번인 사람이름 : " + person.get().getName());
     }
 
 }
